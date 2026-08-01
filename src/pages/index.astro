@@ -119,7 +119,7 @@ const buffet = [
     <section class="hero" id="home">
       <div class="hero__bg" role="img" aria-label="Espetos de picanha na churrascaria"></div>
       <div class="hero__content">
-        <h1>Boi Dourado</h1>
+        <h1 class="hero__title"><span>Boi</span> <span class="hero__title-mark">Dourado</span></h1>
         <p class="hero__lead">Tradição gaúcha em Curitiba desde 2008. Sabor que marca — carnes, massas e buffet completo.</p>
         <div class="hero__cta">
           <a class="btn btn--primary" href={RESERVA} target="_blank" rel="noopener noreferrer">
@@ -134,7 +134,7 @@ const buffet = [
             <defs>
               <path id="scroll-path" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
             </defs>
-            <text font-size="7.2" font-weight="700" letter-spacing="1.4" fill="#C8A65D">
+            <text font-size="8" font-weight="700" letter-spacing="1.35" fill="#C8A65D">
               <textPath href="#scroll-path" startOffset="0%">SCROLL · DESCUBRA · SCROLL · DESCUBRA ·</textPath>
             </text>
           </svg>
@@ -201,7 +201,6 @@ const buffet = [
         </header>
         <div class="sobre__grid reveal">
           <figure class="sobre__media">
-            <span class="sobre__plate" aria-hidden="true"></span>
             <div class="sobre__shot">
               <img
                 class="sobre__shot-day"
