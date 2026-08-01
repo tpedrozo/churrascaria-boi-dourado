@@ -42,3 +42,5 @@ tab-icons.png
 !public/**/*.jpeg
 !public/**/*.webp
 !public/**/*.svg
+.vercel
+.env*
