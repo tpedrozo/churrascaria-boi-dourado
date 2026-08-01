@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview · Cardápio Overdrive — Boi Dourado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #C8A65D;
+      --gold-dark: #A68442;
+      --gold-light: #E2D3A9;
+      --crimson: #8B0000;
+      --dark: #1A1A1A;
+      --darker: #0A0A0A;
+      --muted: #777;
+      --white: #fff;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Open Sans", sans-serif;
+      background: var(--darker);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    .chooser {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,166,93,0.35);
+      padding: 0.85rem 1.25rem;
+    }
+    .chooser__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1rem;
+    }
+    .chooser__label {
+      font-family: "Playfair Display", serif;
+      font-size: 0.95rem;
+      color: var(--gold-light);
+      letter-spacing: 0.04em;
+    }
+    .chooser__btns { display: flex; flex-wrap: wrap; gap: 0.5rem; flex: 1; }
+    .chooser__btn {
+      font: 600 0.8rem/1 "Open Sans", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.65rem 1rem;
+      border: 1px solid rgba(200,166,93,0.4);
+      background: transparent;
+      color: var(--gold-light);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, transform 0.25s var(--spring), border-color 0.25s;
+    }
+    .chooser__btn:hover { transform: translateY(-2px); border-color: var(--gold); }
+    .chooser__btn.is-active {
+      background: var(--gold);
+      color: var(--darker);
+      border-color: var(--gold);
+    }
+    .chooser__hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      width: 100%;
+    }
+
+    .concept { display: none; min-height: calc(100vh - 72px); }
+    .concept.is-active { display: block; }
+
+    .a {
+      padding: 3rem 1.25rem 4rem;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,166,93,0.12), transparent 60%),
+        var(--darker);
+    }
+    .a__inner { max-width: 1100px; margin: 0 auto; }
+    .concept-tag {
+      display: block;
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .concept-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .concept-title span {
+      display: inline-block;
+      position: relative;
+      padding: 0 1.5rem;
+    }
+    .concept-title span::before,
+    .concept-title span::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .concept-title span::before { right: 100%; }
+    .concept-title span::after { left: 100%; }
+    .concept-desc {
+      text-align: center;
+      color: rgba(255,255,255,0.65);
+      max-width: 42rem;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .a-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .a-tab {
+      position: relative;
+      padding: 0.75rem 1.5rem;
+      font: 600 0.85rem/1 "Open Sans", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
+      overflow: hidden;
+    }
+    .a-tab::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(200,166,93,0.35), transparent);
+      transform: translateX(-120%);
+    }
+    .a-tab.is-active {
+      color: var(--gold);
+      border-color: rgba(200,166,93,0.5);
+      background: rgba(200,166,93,0.08);
+    }
+    .a-tab.is-active::before {
+      animation: smoke-sweep 0.7s var(--ease-out);
+    }
+    @keyframes smoke-sweep {
+      from { transform: translateX(-120%); opacity: 1; }
+      to { transform: translateX(120%); opacity: 0; }
+    }
+
+    .a-stage { position: relative; min-height: 420px; perspective: 1200px; }
+    .a-panel {
+      display: none;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    .a-panel.is-active { display: grid; }
+    .a-panel.is-entering .a-card {
+      animation: a-card-enter 0.85s var(--spring) both;
+    }
+    .a-panel.is-entering .a-card:nth-child(1) { animation-delay: 0.05s; }
+    .a-panel.is-entering .a-card:nth-child(2) { animation-delay: 0.15s; }
+    .a-panel.is-entering .a-card:nth-child(3) { animation-delay: 0.25s; }
+    .a-panel.is-entering .a-card:nth-child(4) { animation-delay: 0.35s; }
+    @keyframes a-card-enter {
+      from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.88) rotateX(12deg);
+        filter: blur(8px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+    }
+
+    .a-card {
+      background: rgba(26,26,26,0.9);
+      border: 1px solid rgba(200,166,93,0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition:
+        transform 0.45s var(--spring),
+        border-color 0.35s,
+        box-shadow 0.45s;
+      transform-origin: center bottom;
+    }
+    .a-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: var(--gold);
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(200,166,93,0.4),
+        0 0 40px rgba(200,166,93,0.15);
+    }
+    .a-card__media {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      position: relative;
+    }
+    .a-card__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.9s var(--ease-out);
+    }
+    .a-card:hover .a-card__media img { transform: scale(1.18); }
+    .a-card__glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 80%, rgba(200,166,93,0.35), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .a-card:hover .a-card__glow { opacity: 1; }
+    .a-card__body { padding: 1rem 1.1rem 1.2rem; }
+    .a-card__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+    .a-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.15rem;
+    }
+    .a-badge {
+      background: var(--gold);
+      color: var(--darker);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      transition: transform 0.4s var(--spring), box-shadow 0.4s;
+    }
+    .a-card:hover .a-badge {
+      transform: scale(1.12);
+      animation: badge-pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes badge-pulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(200,166,93,0.4); }
+      50% { box-shadow: 0 0 22px rgba(200,166,93,0.85); }
+    }
+    .a-card p { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    .a-expand {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: grid;
+      place-items: center;
+      background: rgba(0,0,0,0.75);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s;
+      padding: 1.5rem;
+    }
+    .a-expand.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .a-expand__card {
+      width: min(520px, 100%);
+      background: var(--dark);
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      overflow: hidden;
+      transform: scale(0.85) translateY(30px);
+      transition: transform 0.5s var(--spring);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(200,166,93,0.2);
+    }
+    .a-expand.is-open .a-expand__card {
+      transform: scale(1) translateY(0);
+    }
+    .a-expand__card img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+    }
+    .a-expand__body { padding: 1.5rem; }
+    .a-expand__body h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.75rem;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .a-expand__close {
+      margin-top: 1.25rem;
+      background: var(--gold);
+      color: var(--darker);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .b {
+      position: relative;
+      padding: 3rem 1.25rem 4rem;
+      overflow: hidden;
+      background: var(--darker);
+    }
+    .b__canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .b__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .b-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.25rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      background: rgba(26,26,26,0.6);
+      border-radius: 999px;
+      padding: 0.35rem;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid rgba(200,166,93,0.25);
+    }
+    .b-tab-indicator {
+      position: absolute;
+      top: 0.35rem;
+      left: 0.35rem;
+      height: calc(100% - 0.7rem);
+      background: linear-gradient(135deg, var(--gold), var(--crimson));
+      border-radius: 999px;
+      transition: transform 0.55s var(--spring);
+      z-index: 0;
+      box-shadow: 0 0 24px rgba(200,166,93,0.5);
+      will-change: transform;
+    }
+    .b-tab {
+      position: relative;
+      z-index: 1;
+      padding: 0.7rem 1.4rem;
+      font: 600 0.8rem/1 "Open Sans", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      transition: color 0.3s;
+    }
+    .b-tab.is-active { color: var(--white); }
+
+    .b-heat {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(139,0,0,0.35), transparent 50%);
+      opacity: 0;
+      z-index: 2;
+    }
+    .b-heat.is-flash { animation: heat-flash 0.6s var(--ease-out) forwards; }
+    @keyframes heat-flash {
+      0% { opacity: 0.7; }
+      100% { opacity: 0; }
+    }
+
+    .b-grid {
+      display: none;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      perspective: 1000px;
+    }
+    .b-grid.is-active { display: grid; }
+    .b-card {
+      background: rgba(10,10,10,0.75);
+      border: 1px solid rgba(200,166,93,0.15);
+      border-radius: 10px;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      will-change: transform;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .b-grid.is-active .b-card {
+      animation: b-wave 0.8s var(--spring) both;
+    }
+    .b-grid.is-active .b-card:nth-child(1) { animation-delay: 0.05s; }
+    .b-grid.is-active .b-card:nth-child(2) { animation-delay: 0.12s; }
+    .b-grid.is-active .b-card:nth-child(3) { animation-delay: 0.19s; }
+    .b-grid.is-active .b-card:nth-child(4) { animation-delay: 0.26s; }
+    @keyframes b-wave {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .b-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 30px rgba(139,0,0,0.35), 0 0 50px rgba(200,166,93,0.2);
+    }
+    .b-card__media { aspect-ratio: 4/3; overflow: hidden; }
+    .b-card__media img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .b-card:hover .b-card__media img { transform: scale(1.1); }
+    .b-card__body { padding: 1rem; }
+    .b-card h3 { font-family: "Playfair Display", serif; font-size: 1.1rem; margin-bottom: 0.35rem; }
+    .b-card p { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
+
+    .c {
+      padding: 3rem 1.25rem 4rem;
+      background: linear-gradient(180deg, #0A0A0A 0%, #12100c 50%, #0A0A0A 100%);
+    }
+    .c__inner { max-width: 1100px; margin: 0 auto; }
+    .c-counters {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .c-counter { text-align: center; }
+    .c-counter__num {
+      font-family: "Playfair Display", serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+    }
+    .c-counter__label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+
+    .c-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .c-tab {
+      position: relative;
+      padding: 0.85rem 1.75rem;
+      font: 600 0.85rem/1 "Open Sans", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      background: transparent;
+      border: 1px solid rgba(200,166,93,0.25);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: color 0.3s, border-color 0.3s, transform 0.35s var(--spring), background 0.3s;
+    }
+    .c-tab.is-active {
+      color: var(--darker);
+      background: var(--gold);
+      border-color: var(--gold);
+      transform: scale(1.06);
+    }
+
+    .c-stage {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid rgba(200,166,93,0.3);
+      min-height: 480px;
+      background: var(--dark);
+    }
+    .c-wipe {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--crimson) 100%);
+      z-index: 5;
+      transform: translateX(-110%) skewX(-12deg);
+      pointer-events: none;
+    }
+    .c-wipe.is-on { animation: wipe-diag 0.7s var(--ease-out); }
+    @keyframes wipe-diag {
+      0% { transform: translateX(-110%) skewX(-12deg); }
+      45% { transform: translateX(0) skewX(-12deg); }
+      100% { transform: translateX(110%) skewX(-12deg); }
+    }
+
+    .c-panel {
+      display: none;
+      grid-template-columns: 1.15fr 1fr;
+      min-height: 480px;
+    }
+    .c-panel.is-active { display: grid; }
+    .c-panel.is-entering .c-hero-title {
+      animation: title-scale 0.7s var(--spring) both;
+    }
+    .c-panel.is-entering .c-item {
+      animation: item-slide 0.6s var(--ease-out) both;
+    }
+    .c-panel.is-entering .c-item:nth-child(1) { animation-delay: 0.15s; }
+    .c-panel.is-entering .c-item:nth-child(2) { animation-delay: 0.25s; }
+    .c-panel.is-entering .c-item:nth-child(3) { animation-delay: 0.35s; }
+    .c-panel.is-entering .c-item:nth-child(4) { animation-delay: 0.45s; }
+    @keyframes title-scale {
+      from { opacity: 0; transform: scale(1.4); filter: blur(6px); }
+      to { opacity: 1; transform: none; filter: none; }
+    }
+    @keyframes item-slide {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .c-hero { position: relative; overflow: hidden; }
+    .c-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 480px;
+      transition: transform 8s linear;
+    }
+    .c-panel.is-active .c-hero img { transform: scale(1.08); }
+    .c-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 30%, rgba(10,10,10,0.85) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+    }
+    .c-hero-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-transform: uppercase;
+      color: var(--white);
+      text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+    }
+    .c-hero-title em {
+      display: block;
+      font-style: normal;
+      color: var(--gold);
+      font-size: 0.45em;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.35rem;
+    }
+
+    .c-list {
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.25rem;
+      background: rgba(10,10,10,0.95);
+    }
+    .c-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.85rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background 0.3s, border-color 0.3s, transform 0.35s var(--spring);
+      position: relative;
+      overflow: hidden;
+    }
+    .c-item::after {
+      content: "";
+      position: absolute;
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: 0.35rem;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s var(--ease-out);
+    }
+    .c-item:hover {
+      background: rgba(200,166,93,0.08);
+      border-color: rgba(200,166,93,0.25);
+      transform: translateX(6px);
+    }
+    .c-item:hover::after { transform: scaleX(1); }
+    .c-item__thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(200,166,93,0.3);
+    }
+    .c-item__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease-out);
+    }
+    .c-item:hover .c-item__thumb img { transform: scale(1.15) translateX(4px); }
+    .c-item h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.2rem;
+    }
+    .c-item p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.4;
+    }
+    .c-item__badge {
+      display: inline-block;
+      margin-top: 0.35rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    @media (max-width: 900px) {
+      .a-panel, .b-grid { grid-template-columns: repeat(2, 1fr); }
+      .c-panel { grid-template-columns: 1fr; }
+      .c-hero img { min-height: 220px; }
+      .c-hero__overlay {
+        background: linear-gradient(0deg, rgba(10,10,10,0.9), transparent 70%);
+      }
+    }
+    @media (max-width: 560px) {
+      .a-panel, .b-grid { grid-template-columns: 1fr; }
+      .c-tabs { flex-direction: column; align-items: stretch; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="chooser">
+    <div class="chooser__inner">
+      <p class="chooser__label">Preview Overdrive · Cardápio</p>
+      <div class="chooser__btns" role="tablist">
+        <button class="chooser__btn is-active" data-concept="a" type="button">A · Teatro do Espeto</button>
+        <button class="chooser__btn" data-concept="b" type="button">B · Brasa Viva</button>
+        <button class="chooser__btn" data-concept="c" type="button">C · Menu Ritual</button>
+      </div>
+      <p class="chooser__hint">Troque as abas internas · passe o mouse · clique nos cards (A). Mock interativo — ainda não está no site.</p>
+    </div>
+  </header>
+
+  <section class="concept a is-active" id="concept-a" data-concept="a">
+    <div class="a__inner">
+      <p class="concept-tag">Conceito A</p>
+      <h1 class="concept-title"><span>Teatro do Espeto</span></h1>
+      <p class="concept-desc">Troca de aba com “fumaça” dourada + cards em cascade spring. Hover: zoom cinematográfico e badge pulsante. Clique no card para expandir.</p>
+      <div class="a-tabs" role="tablist">
+        <button class="a-tab is-active" data-panel="carnes" type="button">Carnes</button>
+        <button class="a-tab" data-panel="massas" type="button">Massas</button>
+        <button class="a-tab" data-panel="buffet" type="button">Buffet</button>
+      </div>
+      <div class="a-stage">
+        <div class="a-panel is-active is-entering" data-panel="carnes"></div>
+        <div class="a-panel" data-panel="massas"></div>
+        <div class="a-panel" data-panel="buffet"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="a-expand" id="a-expand" aria-hidden="true">
+    <div class="a-expand__card">
+      <img id="a-expand-img" src="" alt="" />
+      <div class="a-expand__body">
+        <h3 id="a-expand-title"></h3>
+        <p id="a-expand-text" style="color:rgba(255,255,255,0.7);line-height:1.6"></p>
+        <button class="a-expand__close" type="button" id="a-expand-close">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="concept b" id="concept-b" data-concept="b">
+    <canvas class="b__canvas" id="embers"></canvas>
+    <div class="b-heat" id="b-heat"></div>
+    <div class="b__inner">
+      <p class="concept-tag">Conceito B</p>
+      <h1 class="concept-title"><span>Brasa Viva</span></h1>
+      <p class="concept-desc">Partículas de brasa no canvas (seguem o cursor). Tabs com indicador líquido. Flash de calor na troca + cards com tilt 3D no mouse.</p>
+      <div class="b-tabs" id="b-tabs">
+        <div class="b-tab-indicator" id="b-indicator"></div>
+        <button class="b-tab is-active" data-panel="carnes" type="button">Carnes</button>
+        <button class="b-tab" data-panel="massas" type="button">Massas</button>
+        <button class="b-tab" data-panel="buffet" type="button">Buffet</button>
+      </div>
+      <div class="b-grid is-active" data-panel="carnes"></div>
+      <div class="b-grid" data-panel="massas"></div>
+      <div class="b-grid" data-panel="buffet"></div>
+    </div>
+  </section>
+
+  <section class="concept c" id="concept-c" data-concept="c">
+    <div class="c__inner">
+      <p class="concept-tag">Conceito C</p>
+      <h1 class="concept-title"><span>Menu Ritual</span></h1>
+      <p class="concept-desc">Painel herói full-bleed + lista lateral. Wipe diagonal na troca. Tabs magnéticas. Contadores animados. Hover com underline ouro e thumb deslizante.</p>
+      <div class="c-counters">
+        <div class="c-counter">
+          <span class="c-counter__num" data-count="16">0</span>
+          <div class="c-counter__label">Cortes na brasa</div>
+        </div>
+        <div class="c-counter">
+          <span class="c-counter__num" data-count="4">0</span>
+          <div class="c-counter__label">Massas artesanais</div>
+        </div>
+        <div class="c-counter">
+          <span class="c-counter__num" data-count="4">0</span>
+          <div class="c-counter__label">Estações buffet</div>
+        </div>
+      </div>
+      <div class="c-tabs" id="c-tabs">
+        <button class="c-tab is-active" data-panel="carnes" type="button">Carnes</button>
+        <button class="c-tab" data-panel="massas" type="button">Massas</button>
+        <button class="c-tab" data-panel="buffet" type="button">Buffet</button>
+      </div>
+      <div class="c-stage">
+        <div class="c-wipe" id="c-wipe"></div>
+        <div class="c-panel is-active is-entering" data-panel="carnes"></div>
+        <div class="c-panel" data-panel="massas"></div>
+        <div class="c-panel" data-panel="buffet"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const DATA = {
+      carnes: [
+        { title: "Costela", badge: "Rodízio", text: "Suculenta costela servida desmanchando de tão macia.", img: "/img/Cardapio/Costela.jpg" },
+        { title: "Paleta", badge: "Rodízio", text: "Corte macio, suculento e cheio de sabor.", img: "/img/Cardapio/Paleta.jpg" },
+        { title: "Picanha", badge: "Rodízio", text: "O corte mais amado: macia, suculenta, gordura na brasa.", img: "/img/Cardapio/Picanha.jpg" },
+        { title: "Linguicinha e Frango", badge: "Rodízio", text: "Bem temperada, douradinha para abrir o apetite.", img: "/img/Cardapio/Linguicinha-e-Frango.jpg" },
+      ],
+      massas: [
+        { title: "Risoto", badge: "Rodízio", text: "Cremoso, saboroso e preparado com ingredientes frescos.", img: "/img/Cardapio/Risoto.jpg" },
+        { title: "Nhoque", badge: "Rodízio", text: "Nhoque caseiro com molho tradicional.", img: "/img/Cardapio/Nhoque.jpg" },
+        { title: "Lasanha 4 Queijos", badge: "Rodízio", text: "Cremosa, gratinada e recheada com os melhores queijos.", img: "/img/Cardapio/Lasanha.jpg" },
+        { title: "Pizza Doce", badge: "Rodízio", text: "Massa leve, recheio cremoso e coberturas irresistíveis.", img: "/img/Cardapio/Pizza.jpg" },
+      ],
+      buffet: [
+        { title: "Sobremesas", badge: "Incluído", text: "Doces para fechar a experiência.", img: "/img/Cardapio/Sobremesas.jpg" },
+        { title: "Saladas", badge: "Incluído", text: "Frescas, leves e cheias de sabor.", img: "/img/Cardapio/Saladas.jpg" },
+        { title: "Frios", badge: "Incluído", text: "Seleção especial de queijos e embutidos.", img: "/img/Cardapio/Frios.jpg" },
+        { title: "Carne de Onça", badge: "Incluído", text: "Tradicional curitibana, temperada na medida.", img: "/img/Cardapio/Carne-de-onca.jpg" },
+      ],
+    };
+    const HERO = { carnes: DATA.carnes[2], massas: DATA.massas[0], buffet: DATA.buffet[0] };
+    const LABELS = { carnes: "Carnes", massas: "Massas", buffet: "Buffet" };
+
+    document.querySelectorAll(".a-panel").forEach((panel) => {
+      const key = panel.dataset.panel;
+      panel.innerHTML = DATA[key].map((item) => `
+        <article class="a-card" data-title="${item.title}" data-text="${item.text}" data-img="${item.img}">
+          <div class="a-card__media">
+            <img src="${item.img}" alt="${item.title}" loading="lazy" />
+            <div class="a-card__glow"></div>
+          </div>
+          <div class="a-card__body">
+            <div class="a-card__top">
+              <h3>${item.title}</h3>
+              <span class="a-badge">${item.badge}</span>
+            </div>
+            <p>${item.text}</p>
+          </div>
+        </article>
+      `).join("");
+    });
+
+    document.querySelectorAll(".b-grid").forEach((grid) => {
+      const key = grid.dataset.panel;
+      grid.innerHTML = DATA[key].map((item) => `
+        <article class="b-card">
+          <div class="b-card__media"><img src="${item.img}" alt="${item.title}" loading="lazy" /></div>
+          <div class="b-card__body">
+            <h3>${item.title}</h3>
+            <p>${item.text}</p>
+          </div>
+        </article>
+      `).join("");
+    });
+
+    document.querySelectorAll(".c-panel").forEach((panel) => {
+      const key = panel.dataset.panel;
+      const hero = HERO[key];
+      panel.innerHTML = `
+        <div class="c-hero">
+          <img src="${hero.img}" alt="${hero.title}" />
+          <div class="c-hero__overlay">
+            <h2 class="c-hero-title"><em>Categoria</em>${LABELS[key]}</h2>
+          </div>
+        </div>
+        <div class="c-list">
+          ${DATA[key].map((item) => `
+            <div class="c-item">
+              <div class="c-item__thumb"><img src="${item.img}" alt="" /></div>
+              <div>
+                <h3>${item.title}</h3>
+                <p>${item.text}</p>
+                <span class="c-item__badge">${item.badge}</span>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    });
+
+    const chooserBtns = document.querySelectorAll(".chooser__btn");
+    const concepts = document.querySelectorAll(".concept");
+    chooserBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.concept;
+        chooserBtns.forEach((b) => b.classList.toggle("is-active", b === btn));
+        concepts.forEach((c) => c.classList.toggle("is-active", c.dataset.concept === id));
+        if (id === "b") { resizeEmbers(); syncBIndicator(); }
+        if (id === "c") animateCounters();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+
+    document.querySelectorAll(".a-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const key = tab.dataset.panel;
+        document.querySelectorAll(".a-tab").forEach((t) => t.classList.toggle("is-active", t === tab));
+        document.querySelectorAll(".a-panel").forEach((p) => {
+          const on = p.dataset.panel === key;
+          p.classList.toggle("is-active", on);
+          if (on) {
+            p.classList.remove("is-entering");
+            void p.offsetWidth;
+            p.classList.add("is-entering");
+          }
+        });
+      });
+    });
+
+    const expand = document.getElementById("a-expand");
+    document.querySelector(".a").addEventListener("click", (e) => {
+      const card = e.target.closest(".a-card");
+      if (!card) return;
+      document.getElementById("a-expand-img").src = card.dataset.img;
+      document.getElementById("a-expand-title").textContent = card.dataset.title;
+      document.getElementById("a-expand-text").textContent = card.dataset.text;
+      expand.classList.add("is-open");
+      expand.setAttribute("aria-hidden", "false");
+    });
+    document.getElementById("a-expand-close").addEventListener("click", () => {
+      expand.classList.remove("is-open");
+      expand.setAttribute("aria-hidden", "true");
+    });
+    expand.addEventListener("click", (e) => {
+      if (e.target === expand) {
+        expand.classList.remove("is-open");
+        expand.setAttribute("aria-hidden", "true");
+      }
+    });
+
+    function syncBIndicator() {
+      const tabs = document.getElementById("b-tabs");
+      const ind = document.getElementById("b-indicator");
+      const active = tabs.querySelector(".b-tab.is-active");
+      if (!active) return;
+      const pad = parseFloat(getComputedStyle(tabs).paddingLeft) || 0;
+      ind.style.left = pad + "px";
+      ind.style.top = pad + "px";
+      ind.style.height = `calc(100% - ${pad * 2}px)`;
+      ind.style.width = active.offsetWidth + "px";
+      ind.style.transform = `translateX(${active.offsetLeft - pad}px)`;
+    }
+
+    document.querySelectorAll(".b-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const key = tab.dataset.panel;
+        document.querySelectorAll(".b-tab").forEach((t) => t.classList.toggle("is-active", t === tab));
+        syncBIndicator();
+        const heat = document.getElementById("b-heat");
+        heat.classList.remove("is-flash");
+        void heat.offsetWidth;
+        heat.classList.add("is-flash");
+        document.querySelectorAll(".b-grid").forEach((g) => {
+          const on = g.dataset.panel === key;
+          g.classList.remove("is-active");
+          if (on) {
+            void g.offsetWidth;
+            g.classList.add("is-active");
+          }
+        });
+      });
+    });
+
+    document.querySelector(".b").addEventListener("mousemove", (e) => {
+      const card = e.target.closest(".b-card");
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `rotateY(${x * 18}deg) rotateX(${-y * 14}deg) translateZ(12px)`;
+    });
+    document.querySelector(".b").addEventListener("mouseout", (e) => {
+      const card = e.target.closest(".b-card");
+      if (card && !card.contains(e.relatedTarget)) card.style.transform = "";
+    }, true);
+
+    const canvas = document.getElementById("embers");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    let mouse = { x: 0.5, y: 0.5 };
+
+    function resizeEmbers() {
+      const section = document.getElementById("concept-b");
+      canvas.width = section.clientWidth;
+      canvas.height = section.clientHeight;
+      if (particles.length === 0) particles = Array.from({ length: 70 }, () => spawn());
+    }
+    function spawn() {
+      return {
+        x: Math.random(),
+        y: 0.6 + Math.random() * 0.4,
+        r: 1 + Math.random() * 2.5,
+        vy: -(0.0004 + Math.random() * 0.0012),
+        vx: (Math.random() - 0.5) * 0.0008,
+        life: 0.3 + Math.random() * 0.7,
+        hue: Math.random() > 0.55 ? 38 : 8,
+      };
+    }
+    function tickEmbers() {
+      if (document.getElementById("concept-b").classList.contains("is-active")) {
+        const w = canvas.width;
+        const h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+        for (const p of particles) {
+          p.x += p.vx + (mouse.x - 0.5) * 0.0006;
+          p.y += p.vy;
+          p.life -= 0.002;
+          if (p.life <= 0 || p.y < 0) Object.assign(p, spawn(), { y: 1, life: 0.5 + Math.random() * 0.5 });
+          const px = p.x * w;
+          const py = p.y * h;
+          const g = ctx.createRadialGradient(px, py, 0, px, py, p.r * 6);
+          g.addColorStop(0, `hsla(${p.hue}, 90%, 60%, ${p.life})`);
+          g.addColorStop(1, `hsla(${p.hue}, 90%, 40%, 0)`);
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(px, py, p.r * 6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(tickEmbers);
+    }
+    document.getElementById("concept-b").addEventListener("mousemove", (e) => {
+      const r = document.getElementById("concept-b").getBoundingClientRect();
+      mouse.x = (e.clientX - r.left) / r.width;
+      mouse.y = (e.clientY - r.top) / r.height;
+    });
+    resizeEmbers();
+    window.addEventListener("resize", () => {
+      if (document.getElementById("concept-b").classList.contains("is-active")) {
+        resizeEmbers();
+        syncBIndicator();
+      }
+    });
+    tickEmbers();
+    requestAnimationFrame(syncBIndicator);
+
+    document.querySelectorAll(".c-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const key = tab.dataset.panel;
+        document.querySelectorAll(".c-tab").forEach((t) => t.classList.toggle("is-active", t === tab));
+        const wipe = document.getElementById("c-wipe");
+        wipe.classList.remove("is-on");
+        void wipe.offsetWidth;
+        wipe.classList.add("is-on");
+        setTimeout(() => {
+          document.querySelectorAll(".c-panel").forEach((p) => {
+            const on = p.dataset.panel === key;
+            p.classList.toggle("is-active", on);
+            if (on) {
+              p.classList.remove("is-entering");
+              void p.offsetWidth;
+              p.classList.add("is-entering");
+            }
+          });
+        }, 280);
+      });
+      tab.addEventListener("mousemove", (e) => {
+        const r = tab.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        tab.style.transform = tab.classList.contains("is-active")
+          ? `scale(1.06) translate(${x * 10}px, ${y * 8}px)`
+          : `translate(${x * 12}px, ${y * 10}px)`;
+      });
+      tab.addEventListener("mouseleave", () => {
+        tab.style.transform = tab.classList.contains("is-active") ? "scale(1.06)" : "";
+      });
+    });
+
+    let countersDone = false;
+    function animateCounters() {
+      if (countersDone) {
+        document.querySelectorAll(".c-counter__num").forEach((el) => { el.textContent = el.dataset.count; });
+        return;
+      }
+      countersDone = true;
+      document.querySelectorAll(".c-counter__num").forEach((el) => {
+        const target = +el.dataset.count;
+        const start = performance.now();
+        const dur = 1200;
+        function frame(now) {
+          const t = Math.min(1, (now - start) / dur);
+          el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
+          if (t < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+  </script>
+</body>
+</html>

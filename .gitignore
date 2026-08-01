@@ -1,0 +1,44 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# editor / agent tooling
+.agents/
+.claude/
+.codex/
+.cursor/
+.gemini/
+.impeccable/
+.kiro/
+.opencode/
+.vscode/
+
+# local screenshots / fixtures
+tab-icons.png
+*.png
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+!public/**/*.webp
+!public/**/*.svg

@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Churrascaria Boi Dourado | Melhor Rodízio de Carnes em Curitiba",
+  description = "Rodízio completo em Curitiba desde 2008: mais de 16 cortes na brasa, massas e buffet. Reserve sua mesa na Av. Comendador Franco, 5085 — Uberaba.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0A0A0A" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!--
+      THESIS: A página avança como passes de espeto à mesa — hero cinemático com faixas de cortes cruzando o quadro; a reserva em ouro é a ação permanente.
+      OWN-WORLD: Ouro #C8A65D, near-black #0A0A0A, carmim #8B0000; Playfair display + Open Sans body; fotografia real da casa; CTAs 4px ouro; bands full-bleed.
+      STORY: Visitante entende o rodízio completo (carnes+massas+buffet), confia na tradição desde 2008 em Uberaba, e reserva mesa.
+      FIRST VIEWPORT: Hero full-bleed com trilhos de espeto animados; marca ouro; H1 branco; CTA FAZER MINHA RESERVA no terço inferior.
+      FORM: Passagem do Espeto · seed 03ff7276 · candidato 3 · comp aprovada .impeccable/mocks/comp-c-cinematic.webp · rebuild fidedigno ao Comp C (hero espeto, triptych diagonal, galeria carrossel)
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+    -->
+    <slot />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+  </body>
+</html>

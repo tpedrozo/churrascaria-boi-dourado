@@ -1,0 +1,638 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import VelocityDivider from "../components/VelocityDivider";
+
+const RESERVA = "https://lp.reservabar.com.br/reserva/churrascaria-boi-dourado";
+const WA = "https://wa.me/5541995977765";
+const FB = "https://www.facebook.com/BoiDouradoChurrascaria/";
+const IG = "https://www.instagram.com/boidouradocwb/";
+
+const carnes = [
+  {
+    title: "Costela",
+    badge: "Rodízio",
+    text: "Suculenta costela servida desmanchando de tão macia.",
+    img: "/img/Cardapio/Costela.jpg",
+  },
+  {
+    title: "Paleta",
+    badge: "Rodízio",
+    text: "Corte macio, suculento e cheio de sabor.",
+    img: "/img/Cardapio/Paleta.jpg",
+  },
+  {
+    title: "Picanha",
+    badge: "Rodízio",
+    text: "O corte mais amado: macia, suculenta, gordura na brasa.",
+    img: "/img/Cardapio/Picanha.jpg",
+  },
+  {
+    title: "Linguicinha e Frango",
+    badge: "Rodízio",
+    text: "Bem temperada, douradinha para abrir o apetite.",
+    img: "/img/Cardapio/Linguicinha-e-Frango.jpg",
+  },
+];
+
+const massas = [
+  {
+    title: "Risoto",
+    badge: "Rodízio",
+    text: "Cremoso, saboroso e preparado com ingredientes frescos.",
+    img: "/img/Cardapio/Risoto.jpg",
+  },
+  {
+    title: "Nhoque",
+    badge: "Rodízio",
+    text: "Nhoque caseiro com molho tradicional.",
+    img: "/img/Cardapio/Nhoque.jpg",
+  },
+  {
+    title: "Lasanha 4 Queijos",
+    badge: "Rodízio",
+    text: "Cremosa, gratinada e recheada com os melhores queijos.",
+    img: "/img/Cardapio/Lasanha.jpg",
+  },
+  {
+    title: "Pizza Doce",
+    badge: "Rodízio",
+    text: "Massa leve, recheio cremoso e coberturas irresistíveis.",
+    img: "/img/Cardapio/Pizza.jpg",
+  },
+];
+
+const buffet = [
+  {
+    title: "Sobremesas",
+    badge: "Incluído",
+    text: "Doces para fechar a experiência.",
+    img: "/img/Cardapio/Sobremesas.jpg",
+  },
+  {
+    title: "Saladas",
+    badge: "Incluído",
+    text: "Frescas, leves e cheias de sabor.",
+    img: "/img/Cardapio/Saladas.jpg",
+  },
+  {
+    title: "Frios",
+    badge: "Incluído",
+    text: "Seleção especial de queijos e embutidos.",
+    img: "/img/Cardapio/Frios.jpg",
+  },
+  {
+    title: "Carne de Onça",
+    badge: "Incluído",
+    text: "Tradicional curitibana, temperada na medida.",
+    img: "/img/Cardapio/Carne-de-onca.jpg",
+  },
+];
+---
+
+<BaseLayout>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="#home" aria-label="Churrascaria Boi Dourado — início">
+        <img src="/img/Logo-Boi-Dourado-branca.png" alt="Logo Boi Dourado" width="210" height="68" />
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Principal">
+        <a href="#home" aria-current="page">Home</a>
+        <a href="#sobre">A Churrascaria</a>
+        <a href="#especialidades">Especialidades</a>
+        <a href="#cardapio">Cardápio</a>
+        <a href="#localizacao">Contato</a>
+      </nav>
+
+      <div class="site-header__actions">
+        <a class="btn btn--outline btn--header" href={RESERVA} target="_blank" rel="noopener noreferrer">Fazer reserva</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero__bg" role="img" aria-label="Espetos de picanha na churrascaria"></div>
+      <div class="hero__content">
+        <h1>Boi Dourado</h1>
+        <p class="hero__lead">Tradição gaúcha em Curitiba desde 2008. Sabor que marca — carnes, massas e buffet completo.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href={RESERVA} target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+            Fazer minha reserva
+          </a>
+        </div>
+      </div>
+      <a class="hero__scroll" href="#especialidades" aria-label="Rolar para especialidades">
+        <span class="hero__scroll-ring" aria-hidden="true">
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <path id="scroll-path" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+            </defs>
+            <text font-size="7.2" font-weight="700" letter-spacing="1.4" fill="#C8A65D">
+              <textPath href="#scroll-path" startOffset="0%">SCROLL · DESCUBRA · SCROLL · DESCUBRA ·</textPath>
+            </text>
+          </svg>
+        </span>
+        <span class="hero__scroll-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12l7 7 7-7"></path>
+          </svg>
+        </span>
+      </a>
+    </section>
+
+    <VelocityDivider client:visible />
+
+    <section class="triptych" id="especialidades" aria-label="Especialidades">
+      <article class="triptych__item reveal">
+        <div class="triptych__bg" style="background-image:url('/img/mock/band-carnes.jpg')"></div>
+        <div class="triptych__veil"></div>
+        <div class="triptych__content">
+          <h2>Rodízio de carnes</h2>
+          <p>Cortes selecionados e preparo perfeito — mais de 16 opções à mesa.</p>
+          <a class="btn btn--outline btn--small" href="#cardapio">Saiba mais</a>
+        </div>
+      </article>
+      <article class="triptych__item reveal">
+        <div class="triptych__bg" style="background-image:url('/img/mock/band-massas.jpg')"></div>
+        <div class="triptych__veil"></div>
+        <div class="triptych__content">
+          <h2>Massas</h2>
+          <p>Diversas opções para todos os paladares, incluídas no rodízio.</p>
+          <a class="btn btn--outline btn--small" href="#cardapio">Saiba mais</a>
+        </div>
+      </article>
+      <article class="triptych__item reveal">
+        <div class="triptych__bg" style="background-image:url('/img/mock/band-kids.jpg')"></div>
+        <div class="triptych__veil"></div>
+        <div class="triptych__content">
+          <h2>Espaço kids</h2>
+          <p>Diversão e segurança para as crianças enquanto você aproveita.</p>
+          <a class="btn btn--outline btn--small" href="#sobre">Saiba mais</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section sobre" id="sobre">
+      <div class="section__inner">
+        <header class="sobre__heading reveal">
+          <div class="seal-float" role="img" aria-label="Selo Boi Dourado — tradição desde 2008">
+            <span class="seal-float__ring" aria-hidden="true">
+              <svg viewBox="0 0 100 100">
+                <defs>
+                  <path id="seal-path" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0" />
+                </defs>
+                <text font-size="7.5" font-weight="700" letter-spacing="1.2" fill="#0A0A0A">
+                  <textPath href="#seal-path" startOffset="0%">DESDE 2008 · BOI DOURADO · DESDE 2008 ·</textPath>
+                </text>
+              </svg>
+            </span>
+            <span class="seal-float__core">
+              <img src="/img/Logo-Boi-Dourado-branca.png" alt="" width="72" height="72" />
+            </span>
+          </div>
+          <h2 class="section__title"><span>A Churrascaria</span></h2>
+        </header>
+        <div class="sobre__grid reveal">
+          <figure class="sobre__media">
+            <span class="sobre__plate" aria-hidden="true"></span>
+            <div class="sobre__shot">
+              <img
+                class="sobre__shot-day"
+                src="/img/mock/boi-dourado-dia.png"
+                alt="Fachada da Churrascaria Boi Dourado no bairro Uberaba em Curitiba — de dia"
+                width="800"
+                height="1000"
+                loading="lazy"
+              />
+              <img
+                class="sobre__shot-night"
+                src="/img/mock/boi-dourado-noite.png"
+                alt=""
+                width="800"
+                height="1000"
+                loading="lazy"
+                aria-hidden="true"
+              />
+              <span class="sobre__veil" aria-hidden="true"></span>
+              <span class="sobre__rail" aria-hidden="true"></span>
+            </div>
+            <span class="sobre__bracket sobre__bracket--tl" aria-hidden="true"></span>
+            <span class="sobre__bracket sobre__bracket--br" aria-hidden="true"></span>
+          </figure>
+          <div class="sobre__copy">
+            <h3>Tradição e qualidade desde 2008</h3>
+            <p>
+              A Churrascaria Boi Dourado foi inaugurada em 2008 e desde então preza pela variedade, qualidade dos
+              produtos e excelência no atendimento.
+            </p>
+            <p>
+              No Uberaba, próximo à Avenida das Torres, o rodízio reúne cerca de 16 tipos de carnes, massas artesanais e
+              buffet completo com sushi, saladas, frios e sobremesas.
+            </p>
+            <a class="btn btn--primary" href={RESERVA} target="_blank" rel="noopener noreferrer">FAZER MINHA RESERVA</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark cardapio" id="cardapio">
+      <div class="section__inner">
+        <h2 class="section__title reveal"><span>Cardápio</span></h2>
+        <div class="tabs reveal" role="tablist" aria-label="Categorias do cardápio">
+          <button class="tab" role="tab" id="tab-carnes" aria-selected="true" aria-controls="panel-carnes" type="button">
+            Carnes
+          </button>
+          <button class="tab" role="tab" id="tab-massas" aria-selected="false" aria-controls="panel-massas" type="button">
+            Massas
+          </button>
+          <button class="tab" role="tab" id="tab-buffet" aria-selected="false" aria-controls="panel-buffet" type="button">
+            Buffet
+          </button>
+        </div>
+
+        <div class="menu-stage">
+          <div class="menu-panel is-entering" role="tabpanel" id="panel-carnes" aria-labelledby="tab-carnes">
+            <div class="menu-grid">
+              {
+                carnes.map((item, index) => (
+                  <article class="menu-item">
+                    <button
+                      class="menu-item__hit"
+                      type="button"
+                      data-menu-open
+                      data-category="carnes"
+                      data-index={String(index)}
+                      data-title={item.title}
+                      data-text={item.text}
+                      data-img={item.img}
+                      data-badge={item.badge}
+                      aria-haspopup="dialog"
+                      aria-label={`Ver detalhes: ${item.title}`}
+                    >
+                      <div class="menu-item__media">
+                        <img src={item.img} alt="" loading="lazy" />
+                        <span class="menu-item__sheen" aria-hidden="true"></span>
+                      </div>
+                      <div class="menu-item__body">
+                        <div class="menu-item__top">
+                          <h3>{item.title}</h3>
+                          <span class="badge">{item.badge}</span>
+                        </div>
+                        <p>{item.text}</p>
+                      </div>
+                    </button>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="menu-panel" role="tabpanel" id="panel-massas" aria-labelledby="tab-massas" hidden>
+            <div class="menu-grid">
+              {
+                massas.map((item, index) => (
+                  <article class="menu-item">
+                    <button
+                      class="menu-item__hit"
+                      type="button"
+                      data-menu-open
+                      data-category="massas"
+                      data-index={String(index)}
+                      data-title={item.title}
+                      data-text={item.text}
+                      data-img={item.img}
+                      data-badge={item.badge}
+                      aria-haspopup="dialog"
+                      aria-label={`Ver detalhes: ${item.title}`}
+                    >
+                      <div class="menu-item__media">
+                        <img src={item.img} alt="" loading="lazy" />
+                        <span class="menu-item__sheen" aria-hidden="true"></span>
+                      </div>
+                      <div class="menu-item__body">
+                        <div class="menu-item__top">
+                          <h3>{item.title}</h3>
+                          <span class="badge">{item.badge}</span>
+                        </div>
+                        <p>{item.text}</p>
+                      </div>
+                    </button>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="menu-panel" role="tabpanel" id="panel-buffet" aria-labelledby="tab-buffet" hidden>
+            <div class="menu-grid">
+              {
+                buffet.map((item, index) => (
+                  <article class="menu-item">
+                    <button
+                      class="menu-item__hit"
+                      type="button"
+                      data-menu-open
+                      data-category="buffet"
+                      data-index={String(index)}
+                      data-title={item.title}
+                      data-text={item.text}
+                      data-img={item.img}
+                      data-badge={item.badge}
+                      aria-haspopup="dialog"
+                      aria-label={`Ver detalhes: ${item.title}`}
+                    >
+                      <div class="menu-item__media">
+                        <img src={item.img} alt="" loading="lazy" />
+                        <span class="menu-item__sheen" aria-hidden="true"></span>
+                      </div>
+                      <div class="menu-item__body">
+                        <div class="menu-item__top">
+                          <h3>{item.title}</h3>
+                          <span class="badge">{item.badge}</span>
+                        </div>
+                        <p>{item.text}</p>
+                      </div>
+                    </button>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <dialog class="menu-spotlight" id="menu-spotlight" aria-labelledby="menu-spotlight-title">
+        <form method="dialog" class="menu-spotlight__frame">
+          <div class="menu-spotlight__media">
+            <img class="menu-spotlight__img" id="menu-spotlight-img" src={carnes[0].img} alt={carnes[0].title} />
+            <button
+              class="menu-spotlight__nav menu-spotlight__nav--prev"
+              id="menu-spotlight-prev"
+              type="button"
+              aria-label="Prato anterior"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+            </button>
+            <button
+              class="menu-spotlight__nav menu-spotlight__nav--next"
+              id="menu-spotlight-next"
+              type="button"
+              aria-label="Próximo prato"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+            </button>
+            <span class="menu-spotlight__count" id="menu-spotlight-count" aria-live="polite">1 / 1</span>
+          </div>
+          <div class="menu-spotlight__body">
+            <div class="menu-spotlight__top">
+              <h3 id="menu-spotlight-title">{carnes[0].title}</h3>
+              <span class="badge" id="menu-spotlight-badge">{carnes[0].badge}</span>
+            </div>
+            <p id="menu-spotlight-text">{carnes[0].text}</p>
+            <button class="btn btn--primary" type="submit" value="close">Fechar</button>
+          </div>
+        </form>
+      </dialog>
+    </section>
+
+    <section class="section section--dark local" id="localizacao">
+      <div class="section__inner">
+        <h2 class="section__title reveal"><span>Contato</span></h2>
+        <div class="local__grid reveal">
+          <div class="local__facts">
+            <div class="fact">
+              <h3>Endereço</h3>
+              <p>Av. Comendador Franco, 5085 — Uberaba</p>
+              <p>Curitiba — PR, 81560-000</p>
+            </div>
+            <div class="fact">
+              <h3>Telefone</h3>
+              <p>Atendimento: (41) 3369-1902</p>
+              <p>WhatsApp: (41) 9597-7765</p>
+            </div>
+            <div class="fact">
+              <h3>Horário</h3>
+              <p>Seg–Sex: 11:30–15:00 | 18:30–23:00</p>
+              <p>Sábado: 11:30–23:00</p>
+              <p>Domingo: 11:30–15:30</p>
+            </div>
+            <a class="btn btn--primary" href={RESERVA} target="_blank" rel="noopener noreferrer">Fazer minha reserva</a>
+          </div>
+          <div class="local__map">
+            <iframe
+              title="Mapa — Churrascaria Boi Dourado"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.5310726306553!2d-49.2171111!3d-25.5028906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dcfa9f1ab08f21%3A0x3a26905a528e2b76!2sAv.%20Com.%20Franco%2C%205085%20-%20Uberaba%2C%20Curitiba%20-%20PR%2C%2081560-000!5e0!3m2!1spt-BR!2sbr!4v1652564592611!5m2!1spt-BR!2sbr"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="/img/Logo-Boi-Dourado-branca.png" alt="Churrascaria Boi Dourado" width="96" height="96" />
+        <p>Tradição e qualidade em carnes nobres desde 2008 em Curitiba.</p>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#sobre">A Churrascaria</a></li>
+          <li><a href="#cardapio">Cardápio</a></li>
+          <li><a href="#localizacao">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Horário</h4>
+        <p>Seg–Sex: 11:30–15:00 | 18:30–23:00</p>
+        <p>Sábado: 11:30–23:00</p>
+        <p>Domingo: 11:30–15:30</p>
+      </div>
+      <div>
+        <h4>Redes</h4>
+        <ul>
+          <li><a href={FB} target="_blank" rel="noopener noreferrer">Facebook</a></li>
+          <li><a href={IG} target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href={WA} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer__bottom">© {new Date().getFullYear()} Churrascaria Boi Dourado — Todos os direitos reservados.</p>
+  </footer>
+
+  <a class="whatsapp-float" href={WA} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da Churrascaria Boi Dourado">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.9L2 22l5.25-1.38A9.9 9.9 0 1 0 12.04 2zm5.78 14.05c-.24.68-1.4 1.25-1.94 1.33-.5.07-1.13.1-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.78-4.16-4.93-4.35-.14-.19-1.2-1.6-1.2-3.05s.76-2.16 1.03-2.46c.27-.3.59-.37.79-.37h.57c.18 0 .42-.07.66.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.14.32-.28.49-.14.17-.3.38-.42.51-.14.14-.28.29-.12.57.16.28.7 1.15 1.5 1.86 1.03.92 1.9 1.2 2.17 1.34.27.14.43.12.59-.07.16-.19.68-.79.86-1.06.18-.27.36-.22.61-.13.24.09 1.55.73 1.82.86.27.14.45.2.52.31.07.11.07.64-.17 1.32z"/></svg>
+  </a>
+
+  <script>
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector("#site-nav");
+    toggle?.addEventListener("click", () => {
+      const open = nav?.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    nav?.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("is-open");
+        toggle?.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>('.tab[role="tab"]')];
+    const panels = [...document.querySelectorAll<HTMLElement>(".menu-panel")];
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const activatePanel = (targetId: string | null, tab: HTMLButtonElement) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.classList.toggle("is-smoking", on && !reduceMotion);
+        if (on && !reduceMotion) {
+          window.setTimeout(() => t.classList.remove("is-smoking"), 700);
+        }
+      });
+      panels.forEach((panel) => {
+        const on = panel.id === targetId;
+        panel.hidden = !on;
+        panel.classList.remove("is-entering");
+        if (on && !reduceMotion) {
+          void panel.offsetWidth;
+          panel.classList.add("is-entering");
+        }
+      });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        activatePanel(tab.getAttribute("aria-controls"), tab);
+      });
+    });
+
+    const spotlight = document.querySelector<HTMLDialogElement>("#menu-spotlight");
+    const spotImg = document.querySelector<HTMLImageElement>("#menu-spotlight-img");
+    const spotTitle = document.querySelector("#menu-spotlight-title");
+    const spotText = document.querySelector("#menu-spotlight-text");
+    const spotBadge = document.querySelector("#menu-spotlight-badge");
+    const spotCount = document.querySelector("#menu-spotlight-count");
+    const spotPrev = document.querySelector<HTMLButtonElement>("#menu-spotlight-prev");
+    const spotNext = document.querySelector<HTMLButtonElement>("#menu-spotlight-next");
+    const menuOpenButtons = [
+      ...document.querySelectorAll<HTMLButtonElement>("[data-menu-open]"),
+    ];
+
+    type MenuSlide = {
+      title: string;
+      text: string;
+      img: string;
+      badge: string;
+    };
+
+    let carouselItems: MenuSlide[] = [];
+    let carouselIndex = 0;
+
+    const readSlide = (btn: HTMLButtonElement): MenuSlide => ({
+      title: btn.dataset.title ?? "",
+      text: btn.dataset.text ?? "",
+      img: btn.dataset.img ?? "",
+      badge: btn.dataset.badge ?? "",
+    });
+
+    const renderSlide = (index: number) => {
+      if (!spotImg || !spotTitle || !spotText || !spotBadge || !spotCount) return;
+      const item = carouselItems[index];
+      if (!item) return;
+      carouselIndex = index;
+      spotImg.src = item.img || spotImg.src;
+      spotImg.alt = item.title;
+      spotTitle.textContent = item.title;
+      spotText.textContent = item.text;
+      spotBadge.textContent = item.badge;
+      spotCount.textContent = `${index + 1} / ${carouselItems.length}`;
+      const multi = carouselItems.length > 1;
+      spotPrev?.toggleAttribute("hidden", !multi);
+      spotNext?.toggleAttribute("hidden", !multi);
+      spotCount.toggleAttribute("hidden", !multi);
+    };
+
+    const stepCarousel = (delta: number) => {
+      if (carouselItems.length < 2) return;
+      const next =
+        (carouselIndex + delta + carouselItems.length) % carouselItems.length;
+      renderSlide(next);
+    };
+
+    const openCarousel = (btn: HTMLButtonElement) => {
+      if (!spotlight) return;
+      const category = btn.dataset.category ?? "";
+      carouselItems = menuOpenButtons
+        .filter((item) => item.dataset.category === category)
+        .map(readSlide);
+      const start = Number.parseInt(btn.dataset.index ?? "0", 10);
+      renderSlide(
+        Number.isFinite(start) && start >= 0 && start < carouselItems.length
+          ? start
+          : 0,
+      );
+      if (typeof spotlight.showModal === "function") spotlight.showModal();
+    };
+
+    menuOpenButtons.forEach((btn) => {
+      btn.addEventListener("click", () => openCarousel(btn));
+    });
+
+    spotPrev?.addEventListener("click", (event) => {
+      event.preventDefault();
+      stepCarousel(-1);
+    });
+    spotNext?.addEventListener("click", (event) => {
+      event.preventDefault();
+      stepCarousel(1);
+    });
+
+    spotlight?.addEventListener("keydown", (event) => {
+      if (!spotlight.open) return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        stepCarousel(-1);
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        stepCarousel(1);
+      }
+    });
+
+    spotlight?.addEventListener("click", (event) => {
+      if (event.target === spotlight) spotlight.close();
+    });
+
+    const reduce = reduceMotion;
+    if (!reduce) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-in");
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    } else {
+      document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-in"));
+    }
+  </script>
+</BaseLayout>
